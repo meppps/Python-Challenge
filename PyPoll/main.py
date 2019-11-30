@@ -9,6 +9,7 @@ candidates = []
 results = []
 winner = 'undetermined'
 
+# Print results after running
 def output():
     print(f"""
         Election Results
@@ -19,7 +20,7 @@ def output():
         {candidates[1]}: {candPercents[1]}%  {candResults[1]}
         {candidates[2]}: {candPercents[2]}%  {candResults[2]}
         {candidates[3]}: {candPercents[3]}%  {candResults[3]}
-        -------------------------
+        -----------------------------------
         Winner: {winner}
         """
     )
@@ -28,28 +29,21 @@ def output():
 with open('election_data.csv', newline="") as csvfile:
     csvreader = csv.reader(csvfile, delimiter=",")
     
-    # Skip headers
-    next(csvreader, None)
-
-    
-
+    # Store/Skip headers
+    header = next(csvreader)
+   
+    # Loop through csv/add up votes
     for rows in csvreader:
         voteCount += 1
 
         candidateVote = rows[2]
         votes.append(candidateVote)
 
-        # if candidate not in candidates:
-            # results[candidate] = candVotes
-        # elif candidate in candidates:
-
-        
-
-    
-    candidates = list(Counter(votes).keys()) # equals to list(set(votes))
-    candResults = list(Counter(votes).values()) # counts the elements' frequency
-    candPercents = [(num/voteCount) * 100 for num in candResults]
-    winner = max(candidates)
+    # Calculate candidate results
+    candidates = list(Counter(votes).keys()) 
+    candResults = list(Counter(votes).values()) 
+    candPercents = [round((num/voteCount) * 100) for num in candResults]
+    resultsDict = Counter(votes)
+    winner = max(resultsDict, key=resultsDict.get)
 
     output()
-    # print(Counter(votes))
