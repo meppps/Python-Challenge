@@ -26,7 +26,7 @@ def output():
 # Open and read csv
 with open('budget_data.csv', newline="") as csvfile:
     csvreader = csv.reader(csvfile, delimiter=",")
-    budget_data = 'budget_data.csv'
+
     # Skip/Store headers
     header = next(csvreader)
 
@@ -40,21 +40,11 @@ with open('budget_data.csv', newline="") as csvfile:
     total = sum(profit)
     
     
-    # Calculate differences(changes) and output to list
+    # Calculate differences(prof/loss changes) and output to list
     length = len(profit)
     diff = [profit[i] - profit[i-1] for i in range(length)]
    
-    # /// IGNORE ////
-            # Find greatest increase/decrease in profits
-            # Find the matching index to get the month
-
-            # changes = {}
-
-            # for i in range(length):
-            #     changes.update({months[i] : diff[i]})
-            # changes.update({months[0] : None})
     
-
     # First value is invalid but removing will 
     # offset the index, so I set it to the median first
     # to prevent it from being selected as min/max, as long as theres three or more values in the changes, this works
@@ -69,7 +59,7 @@ with open('budget_data.csv', newline="") as csvfile:
     minIndex = diff.index(min(diff)) 
     minMonth = months[minIndex]
     
-    # Remove first value from list of changes since it's invalid, it distrupts our calculation
+    # Remove first value from list of changes since it's invalid, it distrupts our avg calculation
     diff.pop(0)
     avgChange = round(statistics.mean(diff),2)
    
