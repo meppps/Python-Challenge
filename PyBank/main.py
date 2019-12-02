@@ -1,7 +1,7 @@
 import os
 import csv
-from collections import Counter
 import statistics
+from collections import Counter
 
 # Init lists
 months = []
@@ -17,7 +17,7 @@ def output():
         ---------------------------
         Total Months: {len(months)}
         Total: ${total}
-        Average Change: 
+        Average Change: ${avgChange}
         Greatest Increase in Profits : {maxMonth} ${maxChange}
         Greatest Decrease in Profits : {minMonth} ${minChange}
         """
@@ -30,58 +30,47 @@ with open('budget_data.csv', newline="") as csvfile:
     # Skip/Store headers
     header = next(csvreader)
 
-    # Loop through csv
+    # Loop through csv / Fill lists for months and profits/losses
     for rows in csvreader:
         months.append(rows[0])
-        change = float(rows[1])
-        profit.append(change)
+        prof = float(rows[1])
+        profit.append(prof)
 
-        # print(change)
-        # changeDiff = change - previousNum
-        # previousNum = change
-        # changes.append(change)
-    # for i to len
-
-    # print(statistics.mean(changes))
-
+        
     total = sum(profit)
     
-    # print(profit)
     
+    # Calculate differences(changes) and output to list
     length = len(profit)
     diff = [profit[i] - profit[i-1] for i in range(length)]
-    # for i in range(length):
-    #     if i == 1:
-    #         next 
-    #     diff.append(profit[i] - profit[i-1])
+   
+    # /// IGNORE ////
+            # Find greatest increase/decrease in profits
+            # Find the matching index to get the month
+
+            # changes = {}
+
+            # for i in range(length):
+            #     changes.update({months[i] : diff[i]})
+            # changes.update({months[0] : None})
     
+
+    # First value is invalid but removing will 
+    # offset the index, so I set it to the median first
+    # to prevent it from being selected as min/max, as long as theres three or more values in the changes, this works
     
-    # ! IGNORE !
-    # for increase in profit:
-    #     if increase > 0:
-    #         increases.append(increase)
+    diff[0] = statistics.median(diff)
 
-
-    print(f"profit mean:{statistics.mean(profit)}")
-    print(f"diff mean: {statistics.mean(diff)}")
-
-
-
-    # Find greatest increase/decrease in profits
-    # Find the matching index to get the month
     maxChange = round(max(diff))
-    maxIndex = diff.index(max(diff))
+    maxIndex = diff.index(max(diff)) 
     maxMonth = months[maxIndex]
     
     minChange = round(min(diff))
-    minIndex = diff.index(min(diff))
+    minIndex = diff.index(min(diff)) 
     minMonth = months[minIndex]
     
-    
-    # print(maxProfit)
-    # output()
-
+    # Remove first value from list of changes since it's invalid, it distrupts our calculation
+    diff.pop(0)
+    avgChange = round(statistics.mean(diff),2)
    
-    
-    
-    
+    output()
