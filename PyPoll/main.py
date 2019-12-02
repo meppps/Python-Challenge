@@ -35,11 +35,11 @@ with open('election_data.csv', newline="") as csvfile:
     # Loop through csv/add up votes
     for rows in csvreader:
         voteCount += 1
-
         candidateVote = rows[2]
         votes.append(candidateVote)
 
-    # Calculate candidate results
+
+    # Calculate/store candidate results
     candidates = list(Counter(votes).keys()) 
     candResults = list(Counter(votes).values()) 
     candPercents = [round((num/voteCount) * 100) for num in candResults]
@@ -47,3 +47,4 @@ with open('election_data.csv', newline="") as csvfile:
     winner = max(resultsDict, key=resultsDict.get)
 
     output()
+    
