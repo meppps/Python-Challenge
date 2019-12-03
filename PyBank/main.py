@@ -11,8 +11,7 @@ diff = []
 
 def output():
 
-    print(
-        f"""
+    return f"""
         Financial Analysis
         ---------------------------
         Total Months: {len(months)}
@@ -21,7 +20,7 @@ def output():
         Greatest Increase in Profits : {maxMonth} ${maxChange}
         Greatest Decrease in Profits : {minMonth} ${minChange}
         """
-        )
+        
 
 # Open and read csv
 with open('budget_data.csv', newline="") as csvfile:
@@ -63,4 +62,15 @@ with open('budget_data.csv', newline="") as csvfile:
     diff.pop(0)
     avgChange = round(statistics.mean(diff),2)
    
-    output()
+    print(output())
+
+    
+# Set variable for output file
+output_file = 'budget.txt'
+
+#  Open the output file
+with open(output_file, "w") as datafile:
+    datafile.write(output())
+
+    
+

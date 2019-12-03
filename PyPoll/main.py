@@ -11,19 +11,18 @@ winner = 'undetermined'
 
 # Print results after running
 def output():
-    print(f"""
-        Election Results
-        -----------------------------------
-        Total Votes: {voteCount}
-        -----------------------------------
-        {candidates[0]}: {candPercents[0]}%  {candResults[0]}
-        {candidates[1]}: {candPercents[1]}%  {candResults[1]}
-        {candidates[2]}: {candPercents[2]}%  {candResults[2]}
-        {candidates[3]}: {candPercents[3]}%  {candResults[3]}
-        -----------------------------------
-        Winner: {winner}
+    candOut = f"""
+    Election Results
+    -----------------------------------
+    Total Votes: {voteCount}
+    ----------------------------------- """
+    for i in range(len(candidates)):
+        candOut += f"\n    {candidates[i]}: {candPercents[i]}%  {candResults[i]}"
+    candOut += f"""
+    -----------------------------------
+    Winner: {winner}
         """
-    )
+    return candOut
 
 # Open and read csv
 with open('election_data.csv', newline="") as csvfile:
@@ -46,5 +45,12 @@ with open('election_data.csv', newline="") as csvfile:
     resultsDict = Counter(votes)
     winner = max(resultsDict, key=resultsDict.get)
 
-    output()
+    print(output())
+
+# Set variable for output file
+output_file = 'results.txt'
+
+#  Open the output file
+with open(output_file, "w") as datafile:
+    datafile.write(output())
     
